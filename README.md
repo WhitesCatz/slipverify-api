@@ -12,6 +12,14 @@ Step3 : replace discordUrl with your Discord Webhook (For test and debug)
 
 Step4 : run it
 
+# Todo
+- Separate into 3 main flie
+- Code clean up
+- Fix bug where you can muti click on api sending (which also use muti api request at the same time)
+- UI Fix
+- Add download function for old api request
+- Clean up the JSON reader
+
 ## Contact
 
 Instagram - [@Macho_Catz](https://www.instagram.com/macho_catz/) 
