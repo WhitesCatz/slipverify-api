@@ -1,365 +1,607 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>   
-    <meta charset= "UTF-8">
-    <meta name= "viewport" content= "width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE-Edge">
-    <title>Cuda - A Owesome Html Template</title>
-    <link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.png">
-    <!-- Google Fonts ================================================== -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <!-- Font Awesome ================================================== -->
-    <script src="https://kit.fontawesome.com/e768f44d60.js" crossorigin="anonymous"></script><link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!--Vendors File ===================================================-->
-    <link rel="stylesheet" href="vendors/css/animated-circle.css">
-    <link rel="stylesheet" href="vendors/css/normalize.css">
-    <link rel="stylesheet" href="vendors/css/grid.css">
-    <!--Resource File ==================================================-->
-    <link rel= "stylesheet"  href= "resources/css/style.css"/>
-    <link rel="stylesheet" href="resources/css/responsive.css">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Slip Scanner</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --bg-color: #f5f7fa;
+            --text-color: #333;
+            --header-bg: #3a78d8;
+            --header-text: #fff;
+            --button-bg: var(--primary-color);
+            --button-hover-bg: #3377cc;
+            --border-color: #ddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: var(--header-bg);
+            color: var(--header-text);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 960px;
+            margin: auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        input[type="file"],
+        input[type="text"],
+        textarea {
+            width: 100%;
+            font-size: 1rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        input[type="file"]:focus,
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px var(--primary-color);
+        }
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        button {
+            background-color: var(--button-bg);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.25s ease, transform 0.2s;
+            flex: 1 1 180px;
+            max-width: 220px;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+        button:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+        }
+        button:hover:not(:disabled) {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-2px);
+        }
+        .table-container {
+            margin-top: 1rem;
+            overflow-x: auto;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 600px;
+        }
+        thead {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+            user-select: text;
+        }
+        td[contenteditable="true"] {
+            background-color: #eef5ff;
+            outline: none;
+        }
+        td[contenteditable="true"]:focus {
+            box-shadow: 0 0 3px var(--primary-color);
+        }
+        #message, #json-message {
+            margin-top: 1rem;
+            font-style: italic;
+            color: #555;
+            min-height: 1.5rem;
+        }
+        #image-gallery-container {
+            margin-top: 2rem;
+            display: none;
+        }
+        #image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        #image-gallery img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            border: 2px solid var(--primary-color);
+            border-radius: 6px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+        @media (max-width: 700px) {
+            button {
+                flex: 1 1 100%;
+                max-width: none;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 
-    <!-- Started Header Menu -->
+<header>Slip Scanner made by Macho_Catz</header>
+<main>
+    <label for="input-excel">Select Excel(IDK why i do this):</label>
+    <input type="file" id="input-excel" accept=".xlsx,.xls" />
+    <div class="buttons">
+        <button id="export-btn" disabled>Export Excel</button>
+    </div>
+    <div id="message">Load an Excel file to display its content.</div>
+    <div class="table-container" id="table-container" tabindex="0"></div>
+
+    <label for="input-zip">Upload ZIP File:</label>
+    <input type="file" id="input-zip" accept=".zip" />
+    <div class="buttons">
+        <button id="scan-images-btn" disabled>Scan Images</button>
+        <button id="show-images-btn" disabled>Show Images</button>
+        <button id="send-images-btn" disabled>Send Api with Images</button>
+    </div>
+    <div id="image-gallery-container">
+        <div id="image-gallery"></div>
+    </div>
+
+    <!-- New Section for Uploading JSON File -->
+    <label for="input-json">Upload JSON File:</label>
+    <input type="file" id="input-json" accept=".json" />
+    <div class="buttons">
+        <button id="process-json-btn" disabled>Process JSON</button>
+        <button id="export-json-btn" disabled>Export JSON as Excel</button>
+        <button id="debugg">Debug</button>
+    </div>
+    <div id="json-message">Load a JSON file to process its content.</div>
+    <div class="table-container" id="json-table-container" tabindex="0"></div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+    const inputExcel = document.getElementById('input-excel');
+    const exportBtn = document.getElementById('export-btn');
+    const tableContainer = document.getElementById('table-container');
+    const message = document.getElementById('message');
+    const inputZip = document.getElementById('input-zip');
+    const scanImagesBtn = document.getElementById('scan-images-btn');
+    const showImagesBtn = document.getElementById('show-images-btn');
+    const sendImagesBtn = document.getElementById('send-images-btn');
+    const imageGalleryContainer = document.getElementById('image-gallery-container');
+    const imageGallery = document.getElementById('image-gallery');
+
+    const inputJson = document.getElementById('input-json');
+    const processJsonBtn = document.getElementById('process-json-btn');
+    const jsonMessage = document.getElementById('json-message');
+    const exportJsonBtn = document.getElementById('export-json-btn');
+    const jsonTableContainer = document.getElementById('json-table-container');
+
+    let currentWorkbook = null;
+    let currentSheetName = null;
+    let sheetData = [];
+    let imageUrls = [];
+
+    // Read Excel file and render editable table
+    inputExcel.addEventListener('change', (e) => {
+        message.textContent = '';
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const data = new Uint8Array(event.target.result);
+                currentWorkbook = XLSX.read(data, { type: 'array' });
+                currentSheetName = currentWorkbook.SheetNames[0];
+                const worksheet = currentWorkbook.Sheets[currentSheetName];
+                sheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
+                tableContainer.innerHTML = generateTableHTML(sheetData);
+                message.textContent = `Loaded sheet: ${currentSheetName}. You can edit cells or export Excel.`;
+                exportBtn.disabled = false;
+            } catch (err) {
+                message.textContent = 'Error reading Excel file: ' + err.message;
+                tableContainer.innerHTML = '';
+                exportBtn.disabled = true;
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    // Export edited Excel file
+    exportBtn.addEventListener('click', () => {
+        updateSheetDataFromTable();
+        if (!sheetData || sheetData.length === 0) {
+            alert('No data to export.');
+            return;
+        }
+        const newWorksheet = XLSX.utils.aoa_to_sheet(sheetData);
+        const newWorkbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(newWorkbook, newWorksheet, currentSheetName || 'Sheet1');
+        const wbout = XLSX.write(newWorkbook, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([wbout], { type: 'application/octet-stream' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'edited_' + (inputExcel.files[0]?.name || 'excel_file.xlsx');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+    // Add an event listener to check for file selection
+    inputZip.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Check if the selected file is a ZIP file
+            if (file.type === 'application/zip' || file.name.endsWith('.zip')) {
+                console.log('ZIP file selected:', file.name);
+                scanImagesBtn.disabled = false; // Enable the scan button
+            } else {
+                alert('Please upload a valid ZIP file.');
+                scanImagesBtn.disabled = true; // Disable the scan button if not a ZIP
+            }
+        } else {
+            scanImagesBtn.disabled = true; // Disable the scan button if no file is selected
+        }
+    });
+
+    // Scan images from ZIP file
+    scanImagesBtn.addEventListener('click', () => {
+        const file = inputZip.files[0];
+        if (!file) {
+            alert('Please upload a ZIP file.');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            JSZip.loadAsync(event.target.result).then(zip => {
+                imageUrls = [];
+                Object.keys(zip.files).forEach(filename => {
+                    if (/\.(jpg|jpeg|png|gif)$/i.test(filename)) {
+                        imageUrls.push(zip.file(filename).async("base64").then(data => {
+                            return `data:image/${filename.split('.').pop()};base64,${data}`;
+                        }));
+                    }
+                });
+                Promise.all(imageUrls).then(urls => {
+                    imageUrls = urls;
+                    scanImagesBtn.disabled = true;
+                    showImagesBtn.disabled = false;
+                    sendImagesBtn.disabled = false; // Enable the send button
+                    message.textContent = `${urls.length} images found in ZIP file.`;
+                });
+            }).catch(err => {
+                alert('Error reading ZIP file: ' + err.message);
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    // Show images in gallery area
+    showImagesBtn.addEventListener('click', () => {
+        imageGallery.innerHTML = '';
+        imageGalleryContainer.style.display = 'block';
+        imageUrls.forEach(url => {
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = 'Image';
+            img.loading = 'lazy';
+            img.onerror = () => {
+                img.style.display = 'none';
+                console.warn('Failed to load image:', url);
+            };
+            imageGallery.appendChild(img);
+        });
+    });
+
+    // Send images to the API
+    sendImagesBtn.addEventListener('click', async () => {
+        const file = inputZip.files[0];
+        if (!file) {
+            alert('Please upload a ZIP file first.');
+            return;
+        }
+
+        const zip = await JSZip.loadAsync(file);
+        const imageFiles = Object.keys(zip.files).filter(filename => /\.(jpg|jpeg|png|gif)$/i.test(filename));
+        const apiResponses = []; // Array to hold API responses
+
+        for (const filename of imageFiles) {
+            const fileData = await zip.file(filename).async("blob");
+            const formData = new FormData();
+            formData.append('file', fileData, filename);
+
+            try {
+                const { data } = await axios.post('https://developer.easyslip.com/api/v1/verify', formData, {
+                    headers: {
+                        Authorization: 'Bearer 151103e8-3c2d-4e8f-9d50-478736ee8ea8', // Replace token.exe with your actual token
+                    },
+                });
+                console.log(`Uploaded ${filename}:`, data);
+                apiResponses.push({ filename, response: data }); // Store the response
+                await failsafe({ filename, response: data });
+
+            } catch (error) {
+                console.error(`Error uploading ${filename}:`, error);
+                apiResponses.push({ filename, error: error.message }); // Store the error
+                await failsafe({ filename, error: error.message });
+            }
+        }
+
+        // Save the API responses to a JSON file
+        saveJsonFile(apiResponses);
+        //let savedata = saveJsonFile;
+        //todo downloadable data ig
+    });
+
+
+    // Function to send data to Discord webhook
+    async function failsafe(data) {
+    const webhookUrl = 'https://discord.com/api/webhooks/1387341905787883572/KC-KknCS13-3cJpkWqg0uqSof51eAiGR6vdhiP12x9qSUFiGe9D8whTgYcjWs8U9fI-z'; // Replace with your actual Discord webhook URL
+    const payload = {
+        content: `API Response:\n${JSON.stringify(data, null, 2)}`, // Format the data as needed
+    };
+        try {
+            await axios.post(webhookUrl, payload);
+            console.log('Webhook sent successfully');
+        } catch (error) {
+            console.error('Error sending webhook:', error);
+        }
+    }
+    debugg.addEventListener('click', async () => {
+        debugs();
+    });
+    // For test some stuff
+    async function debugs(data) {
+        const webhookUrl = 'https://discord.com/api/webhooks/1387341905787883572/KC-KknCS13-3cJpkWqg0uqSof51eAiGR6vdhiP12x9qSUFiGe9D8whTgYcjWs8U9fI-z'; // Replace with your actual Discord webhook URL
+        
+        const payload = {
+            content: 'Response: Test for improve!?', // Format the data as needed
+        };
+        try {
+            await axios.post(webhookUrl, payload);
+            console.log('Webhook Test send');
+        } catch (error) {
+            console.error('Error sending webhook:', error);
+        }
+    }
+    // Function to save JSON data to a file
+    function saveJsonFile(data) {
+        const jsonBlob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(jsonBlob);
+        link.download = 'api_responses.json';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Generate editable HTML table from sheet data
+    function generateTableHTML(data) {
+        if (!data || data.length === 0) return '<p>No data to display.</p>';
+        let html = '<table><thead><tr>';
+        const headerRow = data[0];
+        for (const col of headerRow) {
+            html += `<th>${escapeHtml(col)}</th>`;
+        }
+        html += '</tr></thead><tbody>';
+        for (let r = 1; r < data.length; r++) {
+            html += '<tr>';
+            const row = data[r];
+            for (let c = 0; c < row.length; c++) {
+                html += `<td contenteditable="true">${escapeHtml(row[c])}</td>`;
+            }
+            // If row shorter than header length, add empty cells
+            for (let c = row.length; c < headerRow.length; c++) {
+                html += `<td contenteditable="true"></td>`;
+            }
+            html += '</tr>';
+        }
+        html += '</tbody></table>';
+        return html;
+    }
+
+    // Escape HTML entities this is important
+    function escapeHtml(text) {
+        if (text == null) return '';
+        return text.toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Update sheetData from editable table
+    function updateSheetDataFromTable() {
+        const table = tableContainer.querySelector('table');
+        if (!table) return;
+        const rows = table.querySelectorAll('tr');
+        const updatedData = [];
+        rows.forEach((tr, i) => {
+            const cells = tr.querySelectorAll('th, td');
+            const row = [];
+            cells.forEach(cell => {
+                row.push(cell.textContent);
+            });
+            updatedData.push(row);
+        });
+        sheetData = updatedData;
+    }
+
+    // Check for JSON file selection and enable/disable the process button
+    inputJson.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Check if the selected file is a JSON file
+            if (file.type === 'application/json' || file.name.endsWith('.json')) {
+                processJsonBtn.disabled = false; // Enable the process button
+                jsonMessage.textContent = 'Valid JSON file selected. You can process it.';
+            } else {
+                alert('Please upload a valid JSON file.');
+                processJsonBtn.disabled = true; // Disable the process button
+                jsonMessage.textContent = 'Load a JSON file to process its content.';
+            }
+        } else {
+            processJsonBtn.disabled = true; // Disable the process button if no file is selected
+            jsonMessage.textContent = 'Load a JSON file to process its content.';
+        }
+    });
+
+// Process JSON file
+    processJsonBtn.addEventListener('click', () => {
+        const file = inputJson.files[0];
+        if (!file) {
+            alert('Please upload a JSON file.');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const jsonData = JSON.parse(event.target.result);
+                // Prepare data for the table
+                const dataArray = jsonData.map(item => {
+                    const filename = item.filename;
+                    const response = item.response;
+                    const error = item.error || 'N/A'; // Default to 'N/A' if no error
+                    const date = response ? response.data.date : 'N/A'; // Extract date if response exists
+                    const amount = response ? response.data.amount.amount : 'N/A'; // Extract amount if response exists
+                    const receiverName = response ? response.data.receiver.account.name.th : 'N/A'; // Extract receiver's name in Thai
+                    const receiverNameEn = response ? response.data.receiver.account.name.en : 'N/A'; // Extract receiver's name in English
+                    const payload = response ? response.data.payload : 'N/A'; // Extract payload if response exists
+                    const ref = response ? response.data.transRef : 'N/A';
+                    const sendername = response ? response.data.sender.account.name.th : 'N/A';
+                    //const bankacc = response ? response.data.receiver.account.proxy.account : 'N/A';
+
+                    return {
+                        filename,
+                        response: response ? 'Success' : error, // Indicate success or show error
+                        date,
+                        amount,
+                        sendername,
+                        receiverName,
+                        receiverNameEn,
+                        //bankacc,
+                        payload,
+                        ref
+                    };
+                });
+                // Convert processed data to array format for table display
+                const processedData = dataArray.map(item => [
+                    item.filename,
+                    item.response,
+                    item.date,
+                    item.amount,
+                    item.sendername,
+                    item.receiverName,
+                    item.receiverNameEn,
+                    //item.bankacc,
+                    item.payload,
+                    item.ref
+                ]);
+                jsonTableContainer.innerHTML = generateProcessedTableHTML(processedData);
+                jsonMessage.textContent = 'JSON file processed successfully. You can edit the data.';
+                exportJsonBtn.disabled = false; // Enable export button
+            } catch (err) {
+                jsonMessage.textContent = 'Error processing JSON file: ' + err.message;
+                jsonTableContainer.innerHTML = ''; // Clear table on error
+                exportJsonBtn.disabled = true; // Disable export button
+            }
+        };
+        reader.readAsText(file);
+    });
+    // Convert processed data to array format for table display
+    function generateProcessedTableHTML(data) {
+    if (!data || data.length === 0) return '<p>No data to display.</p>';
+    let html = '<table><thead><tr><th>Filename</th><th>Response</th><th>Date</th><th>Amount</th><th>Sendername</th><th>ReciverName</th><th>ReciverNameEn</th><th>Payload</th><th>Ref</th></tr></thead><tbody>';
+    //let html = '<table><thead><tr><th>Filename</th><th>Response</th><th>Date</th><th>Amount</th><th>Sendername</th><th>ReciverName</th><th>ReciverNameEn</th><th>BankAcc</th><th>Payload</th><th>Ref</th></tr></thead><tbody>';
+    data.forEach(item => {
+        html += `<tr>
+            <td>${escapeHtml(item[0])}</td>
+            <td>${escapeHtml(item[1])}</td>
+            <td>${escapeHtml(item[2])}</td>
+            <td>${escapeHtml(item[3])}</td>
+            <td>${escapeHtml(item[4])}</td>
+            <td>${escapeHtml(item[5])}</td>
+            <td>${escapeHtml(item[6])}</td>
+            <td>${escapeHtml(item[7])}</td>
+            <td>${escapeHtml(item[8])}</td>
+        </tr>`;
+    }); //<td>${escapeHtml(item[9])}</td> //for new add
+        html += '</tbody></table>';
+        return html;
+    }
+
+    // Export JSON data as Excel file
+    exportJsonBtn.addEventListener('click', () => {
+        const processedData = jsonTableContainer.querySelectorAll('tr');
+        const exportData = [];
+        // Add header row
+        //exportData.push(['Filename', 'Response', 'Date', 'Amount', 'Sender Name','Receiver Name' ,'Receiver Name EN','BankAcc' ,'Payload', 'Ref']);
+        exportData.push(['Filename', 'Response', 'Date', 'Amount', 'Sender Name','Receiver Name' ,'Receiver Name EN' ,'Payload', 'Ref']);
+        processedData.forEach((tr, index) => {
+            if (index === 0) return; // Skip header row
+            const cells = tr.querySelectorAll('td');
+            const row = Array.from(cells).map(cell => cell.textContent);
+            exportData.push(row);
+        });
+        
+        if (!exportData || exportData.length === 0) {
+            alert('No data to export.');
+            return;
+        }
     
-    <header id= "home">
-        <nav>
-            <div class="row">
-                <a href="#home">
-                    <img class="logo" src="resources/img/logo.png" alt="cuda">
-                </a>
-                <ul class= "main-nav">
-                    <li class= "active" ><a href="#home">Home</a></li>
-                    <li><a href="#service">Service</a></li>
-                    <li><a href="#team">team</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#testimonial">Testimonial</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
-        <div class="row">
-            <div class="hero-text-box">
-                <h1>Hi there! We are the new kids on the block 
-                    and we build awesome websites and mobile apps.</h1>
-                    <a href="#" class= "btn btn-hero" >Work with us</a>
-            </div>
-        </div>
-    </header>
+    const newWorksheet = XLSX.utils.aoa_to_sheet(exportData);
+    const newWorkbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(newWorkbook, newWorksheet, 'Processed Data');
+    const wbout = XLSX.write(newWorkbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([wbout], { type: 'application/octet-stream' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'processed_data.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+});
 
-    <!-- Ended Header Menu  -->
-   
-    <!--Started Services Section-->
-
-    <section class="service-section js-sticky-section" id= "service">
-        <div class="row">
-            <h2>SERVICES WE PROVIDE</h2>
-            <p class= "little-description">We are working with both individuals and businesses from all over the globe 
-                to create awesome websites and applications.</p>
-        </div>
-        <div class="row">
-            <div class="col span_1_of_4 box">
-                <img src="resources/img/flag.png" alt="flag" class="services-icon">
-                <h3>Branding</h3>
-                <p>Lorem ipsum dolor sit amet, 
-                    consectetuer adipiscing elit, sed diam nonummy nibh.</p>
-            </div>
-            <div class="col span_1_of_4 box">
-                <img src="resources/img/crayon.png" alt="crayon" class="services-icon">
-                <h3>Design</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem 
-                    lorem ipsum  </p>
-            </div>
-            <div class="col span_1_of_4 box">
-                <img src="resources/img/gears.png" alt="gears" class="services-icon">
-                <h3>Development</h3>
-                <p>At vero eos et accusamus et iusto odio dignissimos qui blanditiis praesentium</p>
-            </div>
-            <div class="col span_1_of_4 box">
-                <img src="resources/img/rocket.png" alt="rocket" class="services-icon">
-                <h3>Rocket Science</h3>
-                <p>LEt harum quidem rerum est et expedita distinctio. Nam libero tempore.</p>
-            </div>
-        </div>
-    </section>
-
-    <!--Ended Services Section-->
-
-
-
-    <!-- Started Team Section here-->
-
-    <section class="team-section" id= "team">
-        <div class="row">
-            <h2>MEET OUR BEAUTIFUL TEAM</h2>
-            <p class= "little-description">We are a small team of designers and developers, who help brands with big ideas.</p>
-        </div>
-        <div class="row">
-            <div class="col span_1_of_4 box">
-                <img src="resources/img/1.jpg" alt="Kate Upton" class="team-member">
-                <h3>Kate Upton</h3>
-                <span class="role">Creative Director</span>
-                <p>Duis aute irure dolor in in voluptate velit esse cillum dolore fugiat nulla pariatur. Excepteur sint occaecat non diam proident.</p>
-                <div class="social-link">
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        <li><a href="#"><i class="fas fa-envelope"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col span_1_of_4 box">
-                <img src="resources/img/2.jpg" alt="OLIVIA WILDE" class="team-member">
-                <h3>OLIVIA WILDE</h3>
-                <span class="role">Lead Designer</span>
-                <p>Nemo enim ipsam voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem nesciun</p>
-                <div class="social-link">
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        <li><a href="#"><i class="fas fa-envelope"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col span_1_of_4 box">
-                <img src="resources/img/3.jpg" alt="Ashley Greene" class="team-member">
-                <h3>Ashley Greene</h3>
-                <span class="role">SEO / Developer</span>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                <div class="social-link">
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        <li><a href="#"><i class="fas fa-envelope"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col span_1_of_4 box">
-                <img src="resources/img/4.jpg" alt="ANNE HATHAWAY" class="team-member">
-                <h3>ANNE HATHAWAY</h3>
-                <span class="role">CEO / Marketing Guru</span>
-                <p>Lorem ipsum dolor sit amet, 
-                    consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.</p>
-                <div class="social-link">
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        <li><a href="#"><i class="fas fa-envelope"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- End Team Section here-->
-
-
-    <!-- Started Skill Section here-->
-
-        <section class="skill-section" id="skill">l
-            <div class="row">
-                <h2>WE GOT SKILLS!</h2>
-                <p class="little-description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
-tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-            </div>
-            <div class="row">
-                <div class="col span_1_of_4 box">
-                    <svg class="radial-progress web-design" data-percentage="90" viewBox="0 0 80 80">
-                        <circle class="incomplete" cx="40" cy="40" r="35"></circle>
-                        <circle class="complete" cx="40" cy="40" r="35" style="stroke-dashoffset: 39.58406743523136;"></circle>
-                        <text class="percentage" x="50%" y="57%" transform="matrix(0, 1, -1, 0, 80, 0)">90%</text>
-                      </svg>
-                      <h3>web Design</h3>
-                </div>
-                <div class="col span_1_of_4 box">
-                    <svg class="radial-progress html-css" data-percentage="70" viewBox="0 0 80 80">
-                        <circle class="incomplete" cx="40" cy="40" r="35"></circle>
-                        <circle class="complete" cx="40" cy="40" r="35" style="stroke-dashoffset: 39.58406743523136;"></circle>
-                        <text class="percentage" x="50%" y="57%" transform="matrix(0, 1, -1, 0, 80, 0)">70%</text>
-                      </svg>
-                      <h3>Html / Css</h3>
-                </div>
-                <div class="col span_1_of_4 box">
-                    <svg class="radial-progress graphics-design" data-percentage="75" viewBox="0 0 80 80">
-                        <circle class="incomplete" cx="40" cy="40" r="35"></circle>
-                        <circle class="complete" cx="40" cy="40" r="35" style="stroke-dashoffset: 39.58406743523136;"></circle>
-                        <text class="percentage" x="50%" y="57%" transform="matrix(0, 1, -1, 0, 80, 0)">75%</text>
-                      </svg>
-                      <h3>Graphics design</h3>
-                </div>
-                <div class="col span_1_of_4 box">
-                    <svg class="radial-progress ui-ux" data-percentage="85" viewBox="0 0 80 80">
-                        <circle class="incomplete" cx="40" cy="40" r="35"></circle>
-                        <circle class="complete" cx="40" cy="40" r="35" style="stroke-dashoffset: 39.58406743523136;"></circle>
-                        <text class="percentage" x="50%" y="57%" transform="matrix(0, 1, -1, 0, 80, 0)">85%</text>
-                      </svg>
-                      <h3>Ui / Ux</h3>
-                </div>
-            </div>
-        </section>
-
-    <!-- Ended Skill Section here-->
-
-
-    <!-- Started Portfolio Section here-->
-
-        <section class="portfolio-section" id="portfolio">
-            <div class="row">
-                <h2>Here is the portfolio</h2>
-                <p class= "litte-description">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet
-                    consectetur, adipisci velit, sed quia non numquam</p>
-            </div>
-            <div class="row">
-                <div class="portfolio-filter">
-                    <button type="button" data-filter="all">All</button>
-                    <button type="button" data-filter=".web">Web</button>
-                    <button type="button" data-filter=".apps">Apps</button>
-                    <button type="button" data-filter=".icons">Icons</button>
-                </div>
-            </div>
-            <div class="row container">
-                <div class="col span_1_of_2 mix apps box">
-                    <img src="resources/img/portfolio1.png" alt="Isometric Perspective Mock-Up" class="portfolio-image">
-                    <h4>Isometric Perspective Mock-Up</h4>
-                </div>
-                <div class="col span_1_of_2 mix apps web box">
-                    <img src="resources/img/portfolio2.png" alt="Time Zone App UI" class="portfolio-image">
-                    <h4>Time Zone App UI</h4>
-                </div>
-                <div class="col span_1_of_2 mix icons box">
-                    <img src="resources/img/portfolio3.png" alt="Viro Media Players UI" class="portfolio-image">
-                    <h4>Viro Media Players UI</h4>
-                </div>
-                <div class="col span_1_of_2 mix icons web apps box">
-                    <img src="resources/img/portfolio4.png" alt="Blog / Magazine Flat UI Kit" class="portfolio-image">
-                    <h4>Blog / Magazine Flat UI Kit</h4>
-                </div>
-            </div>
-            <!--  Hidden load more projects
-            <div class="row">
-                <a href="#" class="btn btn-load-more">load more projects</a>
-            </div> -->
-        </section>
-
-    <!-- Ended Portfolio Section here-->
-
-
-    <!-- Started testimonial Section here-->
-
-        <section class="testimonial-section" id="testimonial">
-            <div class="row">
-                <h2>What People say about us</h2>
-                <p class="little-description">Our clients love us!</p>
-            </div>
-            <div class="row">
-                <div class="col span_1_of_2 box">
-                    <div class="client-photo">
-                        <img src="resources/img/1.jpg" alt="Chanel Iman">
-                    </div>
-                    <div class="client-review">
-                        <p>“Nullam dapibus blandit orci, viverra gravida dui lobortis eget. Maecenas fringilla urna eu nisl scelerisque.”</p>
-                        <h3>Chanel Iman</h3>
-                        <span class="role">Ceo of Pinterest</span>
-                    </div>
-                </div>
-                <div class="col span_1_of_2 box">
-                    <div class="client-photo">
-                        <img src="resources/img/2.jpg" alt="ADRIANA LIMA">
-                    </div>
-                    <div class="client-review">
-                        <p>“Vivamus  luctus luctus luctus urna sed urna ultricies ac tempor dui sagittis. In condimentum facilisis porta"</p>
-                        <h3>ADRIANA LIMA</h3>
-                        <span class="role">Founder of Instagram</span>
-                    </div>
-                </div>
-                <div class="col span_1_of_2 box">
-                    <div class="client-photo">
-                        <img src="resources/img/3.jpg" alt="ANNE HATHAWAY">
-                    </div>
-                    <div class="client-review">
-                        <p>“Vivamus luctus urna sed urna luctus luctus  ultricies ac tempor dui sagittis. In condimentum facilisis porta.”</p>
-                        <h3>ANNE HATHAWAY</h3>
-                        <span class="role">Lead Designer at Behance</span>
-                    </div>
-                </div>
-                <div class="col span_1_of_2 box">
-                    <div class="client-photo">
-                        <img src="resources/img/4.jpg" alt="Chanel Iman">
-                    </div>
-                    <div class="client-review">
-                        <p>“Phasellus non purus vel arcu tempor commodo. Fusce semper, purus vel luctus molestie, risus sem cursus </p>
-                        <h3>EMMA STONE</h3>
-                        <span class="role">Co-Founder of Shazam</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    <!-- Ended testimonial Section here-->
-
-
-    <!-- Start Contact Section here-->
-
-        <section class="contact-section" id="contact">
-            <div class="row">
-                <h2>Get in touch</h2>
-                <p class="little-description">1600 Pennsylvania Ave NW, Washington, DC 20500, United States of America. Tel: (202) 456-1111</p>
-            </div>
-            <div class="row">
-                <form action="https://formspree.io/saifyaahoooo@gmail.com" method="POST">
-                    <div class="row">
-                        <div class="col span_1_of_2">
-                            <input type="text" name="Name" placeholder="Enter Name *" required>
-                        </div>
-                        <div class="col span_1_of_2">
-                            <input type="email" name="Email" placeholder="Enter Email *" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <textarea name="Message" cols="30" rows="10" placeholder="Your Message here..."></textarea>
-                    </div>
-                    <div class="row">
-                        <input type="submit" value="Send Message" class="btn btn-submit">
-                    </div>
-                </form>
-            </div>
-        </section>
-
-    <!-- Ended Contact Section here-->
-
-
-    <!-- Ended Footer Section here-->
-
-        <footer class="footer-section">
-            <div class="row">
-                <ul>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Google</a></li>
-                    <li><a href="#">Linkdin</a></li>
-                    <li><a href="#">Behance</a></li>
-                    <li><a href="#">Dribble</a></li>
-                    <li><a href="#">Github</a></li>
-                </ul>
-            </div>
-        </footer>
-
-    <!-- Ended Footer Section here-->
-
-<!--JavaScript Vendors File ===========================================-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="vendors/js/jquery.waypoints.min.js"></script>
-<script src= "vendors/js/animated-circle.js"></script>
-<script src="vendors/js/html5shiv.min.js"></script>
-<script src="vendors/js/respond.min.js"></script>
-<script src="vendors/js/selectivizr.js"></script>
-<script src="vendors/js/mixitup.min.js"></script>
-<script src= "resources/js/main.js"></script>
+</script>
 </body>
 </html>
