@@ -189,7 +189,6 @@
     <div class="buttons">
         <button id="process-json-btn" disabled>Process JSON</button>
         <button id="export-json-btn" disabled>Export JSON as Excel</button>
-        <button id="debugg">Debug</button>
     </div>
     <div id="json-message">Load a JSON file to process its content.</div>
     <div class="table-container" id="json-table-container" tabindex="0"></div>
@@ -352,7 +351,7 @@
             try {
                 const { data } = await axios.post('https://developer.easyslip.com/api/v1/verify', formData, {
                     headers: {
-                        Authorization: 'Bearer 151103e8-3c2d-4e8f-9d50-478736ee8ea8', // Replace token.exe with your actual token
+                        Authorization: 'Bearer token.exe', // Replace token.exe with your actual token
                     },
                 });
                 console.log(`Uploaded ${filename}:`, data);
@@ -369,13 +368,13 @@
         // Save the API responses to a JSON file
         saveJsonFile(apiResponses);
         //let savedata = saveJsonFile;
-        //todo downloadable data ig
+        //todo redownloadable data 
     });
 
 
     // Function to send data to Discord webhook
     async function failsafe(data) {
-    const webhookUrl = 'https://discord.com/api/webhooks/1387341905787883572/KC-KknCS13-3cJpkWqg0uqSof51eAiGR6vdhiP12x9qSUFiGe9D8whTgYcjWs8U9fI-z'; // Replace with your actual Discord webhook URL
+    const webhookUrl = 'https://discord.com/api/webhooks/'; // Replace with your actual Discord webhook URL
     const payload = {
         content: `API Response:\n${JSON.stringify(data, null, 2)}`, // Format the data as needed
     };
@@ -386,23 +385,7 @@
             console.error('Error sending webhook:', error);
         }
     }
-    debugg.addEventListener('click', async () => {
-        debugs();
-    });
-    // For test some stuff
-    async function debugs(data) {
-        const webhookUrl = 'https://discord.com/api/webhooks/1387341905787883572/KC-KknCS13-3cJpkWqg0uqSof51eAiGR6vdhiP12x9qSUFiGe9D8whTgYcjWs8U9fI-z'; // Replace with your actual Discord webhook URL
-        
-        const payload = {
-            content: 'Response: Test for improve!?', // Format the data as needed
-        };
-        try {
-            await axios.post(webhookUrl, payload);
-            console.log('Webhook Test send');
-        } catch (error) {
-            console.error('Error sending webhook:', error);
-        }
-    }
+
     // Function to save JSON data to a file
     function saveJsonFile(data) {
         const jsonBlob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
